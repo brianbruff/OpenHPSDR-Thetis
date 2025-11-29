@@ -1265,7 +1265,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>@echo off
+    <!-- <PreBuildEvent>@echo off
 for /f "delims=" %25%25x in ('wmic os get localdatetime ^| find "."') do set datetime=%25%25x
 set year=%25datetime:~2,2%25
 set month=%25datetime:~4,2%25
@@ -1283,7 +1283,7 @@ echo     { &gt;&gt; "$(ProjectDir)VersionInfo.cs"
 echo         public static string BuildDate { get { return "%25formatted_date%25"; } }  &gt;&gt; "$(ProjectDir)VersionInfo.cs"
 echo     } &gt;&gt; "$(ProjectDir)VersionInfo.cs"
 echo } &gt;&gt; "$(ProjectDir)VersionInfo.cs"
-</PreBuildEvent>
+</PreBuildEvent> -->
     <PostBuildEvent>copy /Y "..\..\..\lib\fftw_$(PlatformName)\libfftw3-3.dll" "$(ProjectDir)$(OutDir)";
 copy /Y "..\..\..\lib\fftw_$(PlatformName)\libfftw3f-3.dll" "$(ProjectDir)$(OutDir)";
 copy /Y "..\..\..\lib\NR_Algorithms_$(PlatformName)\rnnoise.dll" "$(ProjectDir)$(OutDir)";

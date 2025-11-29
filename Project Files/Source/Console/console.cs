@@ -368,6 +368,8 @@ namespace Thetis
         private Point pic_rx2_squelch_basis = new Point(100, 100);
 
         private Point gr_rx2_mixer_basis = new Point(100, 100);
+        private Point gr_right_dock_basis = new Point(100, 100);
+        private Size gr_right_dock_size_basis = new Size(100, 100);
         private Point gr_rx2_enable_basis = new Point(100, 100);
         private Point chk_rx2_enable_basis = new Point(100, 100);
         private Point combo_rx2_preamp_basis = new Point(100, 100);
@@ -32184,11 +32186,18 @@ namespace Thetis
                 {
                     int h = panelDisplay.Size.Height;
                     int w = this.ClientSize.Width - gr_display_basis.X - 8;
+                    if (panelRightDock.Visible)
+                        w = w - panelRightDock.Width - 8;
 
                     panelDisplay.Size = new Size(w, h);
                 }
                 else
-                    panelDisplay.Size = new Size(gr_display_size_basis.Width + h_delta, panelDisplay.Size.Height);
+                {
+                    int w = gr_display_size_basis.Width + h_delta;
+                    if (panelRightDock.Visible)
+                        w = w - panelRightDock.Width - 8;
+                    panelDisplay.Size = new Size(w, panelDisplay.Size.Height);
+                }
             }
         }
         public void ExtendPanelDisplaySizeTop(bool expand)
@@ -39078,6 +39087,11 @@ namespace Thetis
                         w = this.ClientSize.Width - gr_display_basis.X - 8;
                     if (LegacyItemController.ExpandSpectrumToTop)
                         h = gr_display_size_basis.Height + v_delta + (gr_display_basis.Y - menuStrip1.Height);
+
+                    // Reduce width if right dock panel is visible
+                    if (panelRightDock.Visible)
+                        w = w - panelRightDock.Width - 8;
+
                     panelDisplay.Size = new Size(w, h);
 
                     panelDisplay2.Location = new Point(gr_display2_basis.X + (h_delta / 2), gr_display2_basis.Y + v_delta);
@@ -39111,6 +39125,14 @@ namespace Thetis
             }
 
             previous_delta = h_delta + v_delta; //we'll check this next time through...
+
+            // Position right dock panel - always runs regardless of collapsed state
+            if (panelRightDock.Visible)
+            {
+                panelRightDock.Location = new Point(panelDisplay.Right + 4, panelDisplay.Top);
+                panelRightDock.Size = new Size(gr_right_dock_size_basis.Width, panelDisplay.Height);
+                panelRightDock.BringToFront();
+            }
 
             if (collapsedDisplay)
             {
@@ -39218,6 +39240,8 @@ namespace Thetis
             pic_rx2_squelch_basis = this.picRX2Squelch.Location;
 
             gr_rx2_mixer_basis = this.panelRX2Mixer.Location;
+            gr_right_dock_basis = this.panelRightDock.Location;
+            gr_right_dock_size_basis = this.panelRightDock.Size;
             chk_rx2_enable_basis = this.chkRX2.Location;
 
             combo_rx2_preamp_basis = this.comboRX2Preamp.Location;
@@ -43532,10 +43556,17 @@ namespace Thetis
 
             panelDisplay.Location = gr_display_basis;
 
+            int expandDisplayWidth;
             if (LegacyItemController.ExpandSpectrumToRight)
-                panelDisplay.Size = new Size(this.ClientSize.Width - gr_display_basis.X - 8, gr_display_size_basis.Height + v_delta);
+                expandDisplayWidth = this.ClientSize.Width - gr_display_basis.X - 8;
             else
-                panelDisplay.Size = new Size(gr_display_size_basis.Width + h_delta, gr_display_size_basis.Height + v_delta);
+                expandDisplayWidth = gr_display_size_basis.Width + h_delta;
+
+            // Reduce width if right dock panel is visible
+            if (panelRightDock.Visible)
+                expandDisplayWidth = expandDisplayWidth - panelRightDock.Width - 8;
+
+            panelDisplay.Size = new Size(expandDisplayWidth, gr_display_size_basis.Height + v_delta);
 
             panelDisplay2.Location = new Point(gr_display2_basis.X + (h_delta / 2), gr_display2_basis.Y + v_delta);
             panelDSP.Location = new Point(gr_dsp_basis.X + (h_delta / 2), gr_dsp_basis.Y + v_delta);
@@ -44487,7 +44518,10 @@ namespace Thetis
                     height -= radModeLSB.Height;
             }
 
-            panelDisplay.Size = new Size(this.ClientSize.Width, height);
+            int displayWidth = this.ClientSize.Width;
+            if (panelRightDock.Visible)
+                displayWidth = displayWidth - panelRightDock.Width - 8;
+            panelDisplay.Size = new Size(displayWidth, height);
 
             top = infoBar.Location.Y + infoBar.Size.Height + 5;
             int dynamicWidth = pnlDisplay.Width - (lblDisplayPan.Width + btnDisplayPanCenter.Width + 5 + comboDisplayMode.Width + 5 + lblDisplayZoom.Width + (btnDisplayZTB.Width * 5)); // *5 buttons
@@ -45102,6 +45136,29 @@ namespace Thetis
         private void AndromedaButtonBarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetupForm.chkShowAndromedaBar.Checked = !SetupForm.chkShowAndromedaBar.Checked;
+        }
+
+        private void rightDockPanelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RightDockPanelVisible = !RightDockPanelVisible;
+        }
+
+        private bool _rightDockPanelVisible = false;
+        public bool RightDockPanelVisible
+        {
+            get { return _rightDockPanelVisible; }
+            set
+            {
+                _rightDockPanelVisible = value;
+                panelRightDock.Visible = value;
+                rightDockPanelToolStripMenuItem.Checked = value;
+                // Trigger a resize to reposition the display and dock panel
+                ResizeConsole(h_delta, v_delta);
+                if (value)
+                {
+                    panelRightDock.BringToFront();
+                }
+            }
         }
 
         private void radBand_CheckedChanged(object sender, EventArgs e)

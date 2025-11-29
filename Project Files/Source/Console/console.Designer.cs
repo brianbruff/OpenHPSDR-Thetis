@@ -484,6 +484,8 @@
         private LabelTS lblRX2SNBLabel;
         private LabelTS lblRX2ANFLabel;
         private PanelTS panelButtonBar;
+        private PanelTS panelRightDock;
+        private ToolStripMenuItem rightDockPanelToolStripMenuItem;
         private ButtonTS btnAndrBar7;
         private ButtonTS btnAndrBar6;
         private ButtonTS btnAndrBar5;
@@ -971,6 +973,8 @@
             this.lblMIC = new System.Windows.Forms.LabelTS();
             this.lblTransmitProfile = new System.Windows.Forms.LabelTS();
             this.panelButtonBar = new System.Windows.Forms.PanelTS();
+            this.panelRightDock = new System.Windows.Forms.PanelTS();
+            this.rightDockPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAndrBar8 = new System.Windows.Forms.ButtonTS();
             this.btnAndrBar7 = new System.Windows.Forms.ButtonTS();
             this.btnAndrBar6 = new System.Windows.Forms.ButtonTS();
@@ -4229,7 +4233,8 @@
             this.bandControlsToolStripMenuItem,
             this.modeControlsToolStripMenuItem,
             this.andromedaTopControlsToolStripMenuItem,
-            this.andromedaButtonBarToolStripMenuItem});
+            this.andromedaButtonBarToolStripMenuItem,
+            this.rightDockPanelToolStripMenuItem});
             this.displayControlsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.displayControlsToolStripMenuItem.Name = "displayControlsToolStripMenuItem";
             resources.ApplyResources(this.displayControlsToolStripMenuItem, "displayControlsToolStripMenuItem");
@@ -4265,7 +4270,14 @@
             this.andromedaButtonBarToolStripMenuItem.Name = "andromedaButtonBarToolStripMenuItem";
             resources.ApplyResources(this.andromedaButtonBarToolStripMenuItem, "andromedaButtonBarToolStripMenuItem");
             this.andromedaButtonBarToolStripMenuItem.Click += new System.EventHandler(this.AndromedaButtonBarToolStripMenuItem_Click);
-            // 
+            //
+            // rightDockPanelToolStripMenuItem
+            //
+            this.rightDockPanelToolStripMenuItem.Name = "rightDockPanelToolStripMenuItem";
+            this.rightDockPanelToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.rightDockPanelToolStripMenuItem.Text = "Right Dock Panel";
+            this.rightDockPanelToolStripMenuItem.Click += new System.EventHandler(this.rightDockPanelToolStripMenuItem_Click);
+            //
             // dSPToolStripMenuItem
             // 
             this.dSPToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -6028,7 +6040,16 @@
             this.panelButtonBar.Controls.Add(this.btnAndrBar1);
             this.panelButtonBar.Name = "panelButtonBar";
             this.panelButtonBar.Layout += new System.Windows.Forms.LayoutEventHandler(this.panelButtonBar_Layout);
-            // 
+            //
+            // panelRightDock
+            //
+            this.panelRightDock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panelRightDock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelRightDock.Location = new System.Drawing.Point(1270, 27);
+            this.panelRightDock.Name = "panelRightDock";
+            this.panelRightDock.Size = new System.Drawing.Size(160, 580);
+            this.panelRightDock.Visible = false;
+            //
             // btnAndrBar8
             // 
             this.btnAndrBar8.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -7635,6 +7656,7 @@
             this.Controls.Add(this.panelBandGEN);
             this.Controls.Add(this.panelMeterLabels);
             this.Controls.Add(this.panelButtonBar);
+            this.Controls.Add(this.panelRightDock);
             this.Controls.Add(this.panelVFOBLabels);
             this.Controls.Add(this.grpMultimeterMenus);
             this.Controls.Add(this.panelVFOALabels);

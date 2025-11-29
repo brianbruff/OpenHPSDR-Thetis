@@ -162,11 +162,11 @@ namespace Thetis
                     _compile_thread.Start();
                 }
             }
-            Thread warm = new Thread(warmup_roslyn_entry);
-            warm.IsBackground = true;
-            warm.Priority = ThreadPriority.BelowNormal;
-            warm.Name = "MeterScriptEngine-Warmup";
-            warm.Start();
+            //Thread warm = new Thread(warmup_roslyn_entry);
+            //warm.IsBackground = true;
+            //warm.Priority = ThreadPriority.BelowNormal;
+            //warm.Name = "MeterScriptEngine-Warmup";
+            //warm.Start();
         }
 
         public static void Stop()
